@@ -31,7 +31,7 @@ const Hero = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-8 items-center">
 
-                    <div className="flex flex-col items-start text-left max-w-xl">
+                    <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl mx-auto lg:mx-0">
                         {/* Live-status badge */}
                         <div
                             className="vh-rise inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#630cb4]/20 bg-white shadow-sm mb-6"
@@ -67,7 +67,7 @@ const Hero = () => {
 
                         {/* Paragraph */}
                         <p
-                            className="vh-rise text-base text-slate-600 font-medium leading-relaxed mb-10 max-w-md"
+                            className="vh-rise text-base text-slate-600 font-medium leading-relaxed mb-10 max-w-md mx-auto lg:mx-0"
                             style={{ animationDelay: '0.32s' }}
                         >
                             We deliver IT Services, Digital Marketing, and Infrastructure Monitoring to keep your organization resilient, visible, and highly competitive.
@@ -75,7 +75,7 @@ const Hero = () => {
 
                         {/* Buttons */}
                         <div
-                            className="vh-rise flex flex-col sm:flex-row items-center justify-center gap-2 w-full sm:w-auto"
+                            className="vh-rise flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full sm:w-auto"
                             style={{ animationDelay: '0.4s' }}
                         >
                             <Button
