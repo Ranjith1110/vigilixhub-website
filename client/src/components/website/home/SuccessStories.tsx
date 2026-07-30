@@ -184,7 +184,7 @@ const SuccessStories = () => {
                                     {/* Replace with your actual logos later */}
                                     <div className="h-12 w-32 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 text-xs font-semibold hover:border-[#630cb4]/20 transition-colors">
                                         Logo {index + 1}
-                                        {/* <img src={logo} alt={`Client Logo ${index + 1}`} className="max-h-12 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" /> */}
+                                        <img src={logo} alt={`Client Logo ${index + 1}`} className="max-h-12 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
                                     </div>
                                 </SwiperSlide>
                             ))}
