@@ -13,18 +13,21 @@ import {
   FaFacebookF
 } from 'react-icons/fa';
 import { Button } from '../ui/Button';
+import ContactModal from './ContactModal'; // Adjust path if ContactModal is in a different directory
 
 const navLinks = [
-  { label: 'Home', href: '#' },
-  { label: 'About Us', href: '#about' },
-  { label: 'Services', href: '#services' },
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Services', href: '/services' },
 ];
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeHref, setActiveHref] = useState(navLinks[0].href);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
+  // Handle scroll for navbar shadow/styling
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -33,13 +36,43 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // lock background scroll while the mobile menu is open
+  // Lock background scroll while the mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
+
+  // Sync active link with current URL on mount and navigation
+  useEffect(() => {
+    const syncActiveLink = () => {
+      const currentPath = window.location.pathname;
+      const currentHash = window.location.hash || '#';
+      
+      // Attempt to match the exact href, path, or hash
+      const match = navLinks.find(link => 
+        link.href === currentPath + currentHash || 
+        link.href === currentPath || 
+        link.href === currentHash
+      );
+
+      if (match) {
+        setActiveHref(match.href);
+      }
+    };
+
+    syncActiveLink();
+    
+    // Listen for browser navigation changes
+    window.addEventListener('popstate', syncActiveLink);
+    window.addEventListener('hashchange', syncActiveLink);
+    
+    return () => {
+      window.removeEventListener('popstate', syncActiveLink);
+      window.removeEventListener('hashchange', syncActiveLink);
+    };
+  }, []);
 
   const handleNavClick = (href: string) => {
     setActiveHref(href);
@@ -74,7 +107,7 @@ const Navbar = () => {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setActiveHref(link.href)}
+                  onClick={() => handleNavClick(link.href)}
                   className={`group relative flex items-center text-[15.5px] font-medium py-1 tracking-wide transition-colors duration-200 ${
                     isActive ? 'text-[#630cb4]' : 'text-slate-500 hover:text-[#630cb4]'
                   }`}
@@ -95,7 +128,11 @@ const Navbar = () => {
           {/* 3. Right: CTA Button & Mobile Toggle */}
           <div className="flex-1 flex justify-end items-center gap-4">
             <div className="hidden lg:block group">
-              <Button href="#contact" variant="primary" size="sm">
+              <Button 
+                onClick={() => setIsContactModalOpen(true)} 
+                variant="primary" 
+                size="sm"
+              >
                 <span className="flex items-center gap-1.5">
                   Contact us
                   <FiArrowUpRight
@@ -155,7 +192,15 @@ const Navbar = () => {
           })}
 
           <div className="mt-8 group">
-            <Button href="#contact" variant="primary" size="lg" className="w-full">
+            <Button 
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsContactModalOpen(true);
+              }} 
+              variant="primary" 
+              size="lg" 
+              className="w-full"
+            >
               <span className="flex items-center justify-center gap-1.5">
                 Contact us
                 <FiArrowUpRight size={16} />
@@ -204,6 +249,12 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* Global Contact Modal */}
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </>
   );
 };
